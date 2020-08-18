@@ -28,6 +28,14 @@ namespace apLabirinto
             return dado;
         }
 
+        public bool EstaVazia ()
+        {
+            if (listaSimples.GetQtd() == 0)
+                return true;
+            else
+                return false;
+        }
+
         public Dado Topo
         {
             get => listaSimples.GetUltimo();

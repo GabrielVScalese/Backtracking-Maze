@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters;
@@ -15,7 +16,7 @@ namespace apLabirinto
         private int linhas;
         private int colunas;
 
-        public LabirintoBacktracking (string nomeArquivo)
+        public LabirintoBacktracking(string nomeArquivo)
         {
             if (nomeArquivo == null || nomeArquivo.Equals(""))
                 throw new Exception("Arquivo invalido");
@@ -33,6 +34,186 @@ namespace apLabirinto
                     for (int col = 0; col < colunas; col++)
                         matriz[lin, col] = linha[col];
                 }
+            }
+        }
+
+        public PilhaLista<Movimento> BuscarCaminho(DataGridView dgvLab)
+        {
+            int linhaAtual = 1;
+            int colunaAtual = 1;
+            PilhaLista<Movimento> pilhaLista = new PilhaLista<Movimento>();
+            bool achou = false;
+            int cont = 0;
+
+            bool andou = false;
+
+            for (; ; )
+            {
+                andou = Mover(0, 1, ref achou); // Ir para direita
+                if (achou == true)
+                    return pilhaLista;
+                if (andou == false)
+                {
+                    if (cont == 8)
+                    {
+                        var mov = pilhaLista.Desimpilhar();
+                        linhaAtual = mov.Linha;
+                        colunaAtual = mov.Coluna;
+                        cont = 0;
+                    }
+                    else
+                       cont++;
+                }
+
+                andou = Mover(0, -1, ref achou); // Ir para esquerda
+                if (achou)
+                    return pilhaLista;
+                if (andou == false)
+                {
+                    if (cont == 8)
+                    {
+                        var mov = pilhaLista.Desimpilhar();
+                        linhaAtual = mov.Linha;
+                        colunaAtual = mov.Coluna;
+                        cont = 0;
+                    }
+                    else
+                        cont++;
+                }
+
+                andou = Mover(-1, 0, ref achou); // Ir para cima
+                if (achou)
+                    return pilhaLista;
+                if (andou == false)
+                {
+                    if (cont == 8)
+                    {
+                        var mov = pilhaLista.Desimpilhar();
+                        linhaAtual = mov.Linha;
+                        colunaAtual = mov.Coluna;
+                        cont = 0;
+                    }
+                    else
+                       cont++;
+                }
+
+                andou = Mover(1, 0, ref achou); // Ir para baixo
+                if (achou)
+                    return pilhaLista;
+                if (andou == false)
+                {
+                    if (cont == 8)
+                    {
+                        var mov = pilhaLista.Desimpilhar();
+                        linhaAtual = mov.Linha;
+                        colunaAtual = mov.Coluna;
+                        cont = 0;
+                    }
+                    else
+                       cont++;
+                }
+
+                andou = Mover(-1, 1, ref achou); // Ir para diagonal superior direita
+                if (achou)
+                    return pilhaLista;
+                if (andou == false)
+                {
+                    if (cont == 8)
+                    {
+                        var mov = pilhaLista.Desimpilhar();
+                        linhaAtual = mov.Linha;
+                        colunaAtual = mov.Coluna;
+                        cont = 0;
+                    }
+                    else
+                        cont++;
+                }
+
+                andou = Mover(-1, -1, ref achou); // Ir para diagonal superior esquerda
+                if (achou)
+                    return pilhaLista;
+                if (andou == false)
+                {
+                    if (cont == 8)
+                    {
+                        var mov = pilhaLista.Desimpilhar();
+                        linhaAtual = mov.Linha;
+                        colunaAtual = mov.Coluna;
+                        cont = 0;
+                    }
+                    else
+                        cont++;
+                }
+
+                andou = Mover(1, 1, ref achou); // Ir para diagonal inferior direita
+                if (achou)
+                    return pilhaLista;
+                if (andou == false)
+                {
+                    if (cont == 8)
+                    {
+                        var mov = pilhaLista.Desimpilhar();
+                        linhaAtual = mov.Linha;
+                        colunaAtual = mov.Coluna;
+                        cont = 0;
+                    }
+                    else
+                        cont++;
+                }
+
+                andou = Mover(1, -1, ref achou);  // Ir para diagonal inferior esquerda
+                if (achou)
+                    return pilhaLista;
+                if (andou == false)
+                {
+                    if (cont == 8)
+                    {
+                        matriz[linhaAtual, colunaAtual] = 'o';
+                        var mov = pilhaLista.Desimpilhar();
+                        linhaAtual = mov.Linha;
+                        colunaAtual = mov.Coluna;
+                        cont = 0;
+                    }
+                    else
+                        cont++;
+                }
+
+                if (linhaAtual == 1 && colunaAtual == 1)
+                {
+                    return pilhaLista;
+                }
+            }
+
+            bool Mover(int somaLinha, int somaColuna, ref bool encontrado)
+            {
+                bool foi = false;
+
+                if ((int)matriz[linhaAtual + somaLinha, colunaAtual + somaColuna] != 35)
+                {
+                    if ((int)matriz[linhaAtual + somaLinha, colunaAtual + somaColuna] != 111)
+                    {
+                        if (matriz[linhaAtual + somaLinha, colunaAtual + somaColuna] == 83)
+                        {
+                            pilhaLista.Empilhar(new Movimento(linhaAtual, colunaAtual));
+                            linhaAtual += somaLinha;
+                            colunaAtual += somaColuna;
+                            encontrado = true;
+                            foi = true;
+                            pilhaLista.Empilhar(new Movimento(linhaAtual, colunaAtual));
+                        }
+                        else
+                        {
+                            pilhaLista.Empilhar(new Movimento(linhaAtual, colunaAtual));
+                            matriz[linhaAtual, colunaAtual] = 'o';
+                            linhaAtual += somaLinha;
+                            colunaAtual += somaColuna;
+                            foi = true;
+                            cont = 0;
+                        }
+                    }
+                }
+
+                return foi;
             }
         }
 

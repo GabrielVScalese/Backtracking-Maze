@@ -20,6 +20,7 @@ namespace apLabirinto
 
         public int Linha
         {
+            get => linha;
             set
             {
                 if (value < 0)
@@ -31,6 +32,7 @@ namespace apLabirinto
 
         public int Coluna
         {
+            get => coluna;
             set
             {
                 if (coluna < 0)
@@ -43,6 +45,11 @@ namespace apLabirinto
         public int CompareTo (Movimento obj)
         {
             return 0;
+        }
+
+        public override string ToString()
+        {
+            return "L: " + linha + " C: " + coluna;
         }
     }
 }

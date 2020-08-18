@@ -46,6 +46,7 @@ namespace apLabirinto
             {
                 primeiro = null;
                 ultimo = null;
+                qtd--;
                 return;
             }
 
@@ -56,6 +57,7 @@ namespace apLabirinto
                 {
                     aux.Prox = null;
                     ultimo = aux;
+                    qtd--;
                     break;
                 }
                 else

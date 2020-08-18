@@ -32,6 +32,12 @@ namespace apLabirinto
         {
             if (lab == null)
                 MessageBox.Show("Escolha um arquivo!");
+
+            var pilhaLista = lab.BuscarCaminho(dgvLabirinto);
+            if (!pilhaLista.EstaVazia())
+                MessageBox.Show("Posicao da saida: " + pilhaLista.Topo);
+            else
+                MessageBox.Show("Sem Saida");
         }
     }
 }
