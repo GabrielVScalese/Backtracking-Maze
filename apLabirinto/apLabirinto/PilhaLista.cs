@@ -10,6 +10,11 @@ namespace apLabirinto
     {
         private ListaSimples<Dado> listaSimples;
 
+        public PilhaLista()
+        {
+            listaSimples = new ListaSimples<Dado>();
+        }
+
         public void Empilhar (Dado dado)
         {
             listaSimples.InsiraNoFim(dado);
@@ -23,9 +28,9 @@ namespace apLabirinto
             return dado;
         }
 
-        public PilhaLista ()
+        public Dado Topo
         {
-            listaSimples = new ListaSimples<Dado>();
+            get => listaSimples.GetUltimo();
         }
     }
 }

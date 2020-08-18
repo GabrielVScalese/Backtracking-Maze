@@ -11,13 +11,21 @@ namespace apLabirinto
         private Dado dado;
         private NoLista<Dado> prox;
 
+        public NoLista(Dado dado, NoLista<Dado> prox)
+        {
+            Info = dado;
+            Prox = prox;
+        }
+
         public Dado Info
         {
             get => dado;
             set
             {
-                if (value != null)
-                    dado = value;
+                if (value == null)
+                    throw new Exception("Informacao ausente");
+
+                dado = value;
             }
         }
 
@@ -28,12 +36,6 @@ namespace apLabirinto
             {
                 prox = value;
             }
-        }
-
-        public NoLista (Dado dado, NoLista<Dado> prox)
-        {
-            Info = dado;
-            Prox = prox;
         }
     }
 }

@@ -1,0 +1,10 @@
+D:\COTUCA\ENSINO TECNICO\SEGUNDO SEMESTRE\ESTRUTURAS DE DADOS II\PROJETOS\PROJETO I\RESOLUCAO\BacktrackingLabirinto\apLabirinto\apLabirinto\bin\Debug\apLabirinto.exe.config
+D:\COTUCA\ENSINO TECNICO\SEGUNDO SEMESTRE\ESTRUTURAS DE DADOS II\PROJETOS\PROJETO I\RESOLUCAO\BacktrackingLabirinto\apLabirinto\apLabirinto\bin\Debug\apLabirinto.exe
+D:\COTUCA\ENSINO TECNICO\SEGUNDO SEMESTRE\ESTRUTURAS DE DADOS II\PROJETOS\PROJETO I\RESOLUCAO\BacktrackingLabirinto\apLabirinto\apLabirinto\bin\Debug\apLabirinto.pdb
+D:\COTUCA\ENSINO TECNICO\SEGUNDO SEMESTRE\ESTRUTURAS DE DADOS II\PROJETOS\PROJETO I\RESOLUCAO\BacktrackingLabirinto\apLabirinto\apLabirinto\obj\Debug\apLabirinto.csprojAssemblyReference.cache
+D:\COTUCA\ENSINO TECNICO\SEGUNDO SEMESTRE\ESTRUTURAS DE DADOS II\PROJETOS\PROJETO I\RESOLUCAO\BacktrackingLabirinto\apLabirinto\apLabirinto\obj\Debug\apLabirinto.Form1.resources
+D:\COTUCA\ENSINO TECNICO\SEGUNDO SEMESTRE\ESTRUTURAS DE DADOS II\PROJETOS\PROJETO I\RESOLUCAO\BacktrackingLabirinto\apLabirinto\apLabirinto\obj\Debug\apLabirinto.Properties.Resources.resources
+D:\COTUCA\ENSINO TECNICO\SEGUNDO SEMESTRE\ESTRUTURAS DE DADOS II\PROJETOS\PROJETO I\RESOLUCAO\BacktrackingLabirinto\apLabirinto\apLabirinto\obj\Debug\apLabirinto.csproj.GenerateResource.cache
+D:\COTUCA\ENSINO TECNICO\SEGUNDO SEMESTRE\ESTRUTURAS DE DADOS II\PROJETOS\PROJETO I\RESOLUCAO\BacktrackingLabirinto\apLabirinto\apLabirinto\obj\Debug\apLabirinto.csproj.CoreCompileInputs.cache
+D:\COTUCA\ENSINO TECNICO\SEGUNDO SEMESTRE\ESTRUTURAS DE DADOS II\PROJETOS\PROJETO I\RESOLUCAO\BacktrackingLabirinto\apLabirinto\apLabirinto\obj\Debug\apLabirinto.exe
+D:\COTUCA\ENSINO TECNICO\SEGUNDO SEMESTRE\ESTRUTURAS DE DADOS II\PROJETOS\PROJETO I\RESOLUCAO\BacktrackingLabirinto\apLabirinto\apLabirinto\obj\Debug\apLabirinto.pdb
