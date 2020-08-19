@@ -51,8 +51,6 @@ namespace apLabirinto
 
             bool andou = false;
 
-           ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-
             for (; ; )
             {
                 andou = Mover(0, 1, ref achou); // Ir para direita
@@ -272,6 +270,26 @@ namespace apLabirinto
 
             dgv.CurrentCell = dgv[1, 1];
             dgv.Refresh();
+        }
+
+        public void ExibirCaminho (DataGridView dgvCaminhos, PilhaLista<Movimento> pilhaLista)
+        {
+            dgvCaminhos.RowCount = linhas;
+            dgvCaminhos.ColumnCount = colunas;
+
+            for (int lin = 0; lin < linhas; lin++)
+                dgvCaminhos.Rows[lin].HeaderCell.Value = lin.ToString();
+
+            for (int col = 0; col < colunas; col++)
+                dgvCaminhos.Columns[col].HeaderText = col.ToString();
+
+            NoLista<Movimento> aux = pilhaLista.Inicio;
+            while (aux != null)
+            {
+                dgvCaminhos[aux.Info.Coluna, aux.Info.Linha].Value = "o";
+                dgvCaminhos.Refresh();
+                aux = aux.Prox;
+            }
         }
     }
 }
