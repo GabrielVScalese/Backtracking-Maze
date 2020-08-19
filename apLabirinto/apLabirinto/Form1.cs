@@ -33,9 +33,13 @@ namespace apLabirinto
             if (lab == null)
                 MessageBox.Show("Escolha um arquivo!");
 
+            dgvCaminhos.Rows.Clear();
             var pilhaLista = lab.BuscarCaminho(dgvLabirinto);
             if (!pilhaLista.EstaVazia())
+            {
                 MessageBox.Show("Saída encontrada (" + pilhaLista.Topo + ")!");
+                lab.ExibirCaminho(dgvCaminhos, pilhaLista);
+            }
             else
                 MessageBox.Show("Labirinto sem Saída");
         }
