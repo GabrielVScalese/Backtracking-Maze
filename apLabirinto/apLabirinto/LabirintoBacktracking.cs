@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -47,6 +51,8 @@ namespace apLabirinto
 
             bool andou = false;
 
+           ExibirPasso(dgvLab, colunaAtual, linhaAtual);
+
             for (; ; )
             {
                 andou = Mover(0, 1, ref achou); // Ir para direita
@@ -56,9 +62,11 @@ namespace apLabirinto
                 {
                     if (cont == 8)
                     {
+                        matriz[linhaAtual, colunaAtual] = 'o';
                         var mov = pilhaLista.Desimpilhar();
                         linhaAtual = mov.Linha;
                         colunaAtual = mov.Coluna;
+                        ExibirPasso(dgvLab, colunaAtual, linhaAtual);
                         cont = 0;
                     }
                     else
@@ -72,9 +80,11 @@ namespace apLabirinto
                 {
                     if (cont == 8)
                     {
+                        matriz[linhaAtual, colunaAtual] = 'o';
                         var mov = pilhaLista.Desimpilhar();
                         linhaAtual = mov.Linha;
                         colunaAtual = mov.Coluna;
+                        ExibirPasso(dgvLab, colunaAtual, linhaAtual);
                         cont = 0;
                     }
                     else
@@ -88,9 +98,11 @@ namespace apLabirinto
                 {
                     if (cont == 8)
                     {
+                        matriz[linhaAtual, colunaAtual] = 'o';
                         var mov = pilhaLista.Desimpilhar();
                         linhaAtual = mov.Linha;
                         colunaAtual = mov.Coluna;
+                        ExibirPasso(dgvLab, colunaAtual, linhaAtual);
                         cont = 0;
                     }
                     else
@@ -104,9 +116,11 @@ namespace apLabirinto
                 {
                     if (cont == 8)
                     {
+                        matriz[linhaAtual, colunaAtual] = 'o';
                         var mov = pilhaLista.Desimpilhar();
                         linhaAtual = mov.Linha;
                         colunaAtual = mov.Coluna;
+                        ExibirPasso(dgvLab, colunaAtual, linhaAtual);
                         cont = 0;
                     }
                     else
@@ -120,9 +134,11 @@ namespace apLabirinto
                 {
                     if (cont == 8)
                     {
+                        matriz[linhaAtual, colunaAtual] = 'o';
                         var mov = pilhaLista.Desimpilhar();
                         linhaAtual = mov.Linha;
                         colunaAtual = mov.Coluna;
+                        ExibirPasso(dgvLab, colunaAtual, linhaAtual);
                         cont = 0;
                     }
                     else
@@ -136,9 +152,11 @@ namespace apLabirinto
                 {
                     if (cont == 8)
                     {
+                        matriz[linhaAtual, colunaAtual] = 'o';
                         var mov = pilhaLista.Desimpilhar();
                         linhaAtual = mov.Linha;
                         colunaAtual = mov.Coluna;
+                        ExibirPasso(dgvLab, colunaAtual, linhaAtual);
                         cont = 0;
                     }
                     else
@@ -152,9 +170,11 @@ namespace apLabirinto
                 {
                     if (cont == 8)
                     {
+                        matriz[linhaAtual, colunaAtual] = 'o';
                         var mov = pilhaLista.Desimpilhar();
                         linhaAtual = mov.Linha;
                         colunaAtual = mov.Coluna;
+                        ExibirPasso(dgvLab, colunaAtual, linhaAtual);
                         cont = 0;
                     }
                     else
@@ -172,6 +192,7 @@ namespace apLabirinto
                         var mov = pilhaLista.Desimpilhar();
                         linhaAtual = mov.Linha;
                         colunaAtual = mov.Coluna;
+                        ExibirPasso(dgvLab, colunaAtual, linhaAtual);
                         cont = 0;
                     }
                     else
@@ -197,9 +218,11 @@ namespace apLabirinto
                             pilhaLista.Empilhar(new Movimento(linhaAtual, colunaAtual));
                             linhaAtual += somaLinha;
                             colunaAtual += somaColuna;
+                            ExibirSaida(dgvLab, colunaAtual, linhaAtual);
                             encontrado = true;
                             foi = true;
                             pilhaLista.Empilhar(new Movimento(linhaAtual, colunaAtual));
+
                         }
                         else
                         {
@@ -209,11 +232,26 @@ namespace apLabirinto
                             colunaAtual += somaColuna;
                             foi = true;
                             cont = 0;
+                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
                         }
                     }
                 }
 
                 return foi;
+            }
+
+            void ExibirPasso (DataGridView dgv, int coluna, int linha)
+            {
+                dgv[coluna, linha].Value = "o";
+                dgv.CurrentCell = dgv[coluna, linha];
+                dgv.Refresh();
+                Thread.Sleep(1000);
+            }
+
+            void ExibirSaida (DataGridView dgv, int coluna, int linha)
+            {
+                dgv.CurrentCell = dgv[coluna, linha];
+                dgv.Refresh();
             }
         }
 
@@ -231,6 +269,9 @@ namespace apLabirinto
             for (int lin = 0; lin < linhas; lin++)                    // Inicializando o DataGridView com os valores da matriz         
                  for (int col = 0; col < colunas; col++)
                     dgv[col, lin].Value = matriz[lin, col];
+
+            dgv.CurrentCell = dgv[1, 1];
+            dgv.Refresh();
         }
     }
 }
