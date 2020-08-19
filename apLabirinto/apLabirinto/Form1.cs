@@ -35,9 +35,9 @@ namespace apLabirinto
 
             var pilhaLista = lab.BuscarCaminho(dgvLabirinto);
             if (!pilhaLista.EstaVazia())
-                MessageBox.Show("Posicao da saida: " + pilhaLista.Topo);
+                MessageBox.Show("Saída encontrada (" + pilhaLista.Topo + ")!");
             else
-                MessageBox.Show("Sem Saida");
+                MessageBox.Show("Labirinto sem Saída");
         }
     }
 }
