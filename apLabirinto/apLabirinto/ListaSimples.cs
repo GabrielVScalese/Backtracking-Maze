@@ -65,6 +65,16 @@ namespace apLabirinto
             }
         }
 
+        public NoLista<Dado> Primeiro
+        {
+            get => primeiro;
+        }
+
+        public NoLista<Dado> Ultimo
+        {
+            get => ultimo;
+        }
+
         public Dado GetUltimo ()
         {
             if (GetQtd() == 0)

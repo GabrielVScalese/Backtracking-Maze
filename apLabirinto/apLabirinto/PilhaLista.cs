@@ -36,6 +36,10 @@ namespace apLabirinto
                 return false;
         }
 
+        public NoLista<Dado> Inicio => listaSimples.Primeiro;
+
+        public NoLista<Dado> Fim => listaSimples.Ultimo;
+
         public Dado Topo
         {
             get => listaSimples.GetUltimo();
