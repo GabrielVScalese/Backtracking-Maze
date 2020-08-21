@@ -36,6 +36,11 @@ namespace apLabirinto
                 return false;
         }
 
+        public int GetQtd()
+        {
+            return listaSimples.GetQtd();
+        }
+
         public NoLista<Dado> Inicio => listaSimples.Primeiro;
 
         public NoLista<Dado> Fim => listaSimples.Ultimo;
@@ -43,6 +48,16 @@ namespace apLabirinto
         public Dado Topo
         {
             get => listaSimples.GetUltimo();
+        }
+
+        public void PassarDados (PilhaLista<Dado> pilhaAux)
+        {
+            NoLista<Dado> aux = pilhaAux.listaSimples.Primeiro;
+            while (aux != null)
+            {
+                listaSimples.InsiraNoFim(aux.Info);
+                aux = aux.Prox;
+            }
         }
     }
 }
