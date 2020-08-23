@@ -36,8 +36,8 @@ namespace apLabirinto
             PilhaLista<Movimento> caminhos = new PilhaLista<Movimento>();
             caminhos = lab.BuscarCaminho(dgvLabirinto, ref caminhos);
             dgvCaminhos.Rows.Clear();
-            
-            if (caminhos.EstaVazia() == false)
+
+            /*if (caminhos.EstaVazia() == false)
             {
                 Movimento mov = caminhos.Topo;
                 NoLista<Movimento> aux = caminhos.Inicio;
@@ -62,7 +62,11 @@ namespace apLabirinto
                 MessageBox.Show("Saída encontrada (" + mov + "), possibilidades: " + solucoes + "!");
             }
             else
-                MessageBox.Show("Labirinto sem Saída");
+                MessageBox.Show("Labirinto sem Saída");*/
+            if (caminhos.GetQtd() > 0)
+                MessageBox.Show("Encontrou");
+            else
+                MessageBox.Show("Sem solução");
         }
     }
 }

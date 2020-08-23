@@ -19,12 +19,19 @@ namespace apLabirinto
         private char[,] matriz;
         private int linhas;
         private int colunas;
+        string nomeArquivo;
 
         public LabirintoBacktracking(string nomeArquivo)
         {
             if (nomeArquivo == null || nomeArquivo.Equals(""))
                 throw new Exception("Arquivo invalido");
 
+            this.nomeArquivo = nomeArquivo;
+            setMatriz();
+        }
+
+        private void setMatriz()
+        {
             var arquivo = new StreamReader(nomeArquivo);
             colunas = int.Parse(arquivo.ReadLine());
             linhas = int.Parse(arquivo.ReadLine());
@@ -43,437 +50,73 @@ namespace apLabirinto
 
         public PilhaLista<Movimento> BuscarCaminho(DataGridView dgvLab, ref PilhaLista<Movimento> possiveisCaminhos)
         {
-            int linhaSolucao = 0;
-            int colunaSolucao = 0;
-            int linhaAtual = 1;
-            int colunaAtual = 1;
-            PilhaLista<Movimento> pilhaLista = new PilhaLista<Movimento>();
-            bool achou = false;
-            int cont = 0;
+            int linhaAtual, colunaAtual;
+            linhaAtual = colunaAtual = 1;
 
-            bool andou = false;
+            PilhaLista<Movimento> aux = new PilhaLista<Movimento>();
 
-            if (possiveisCaminhos.EstaVazia() == false) // Ja achou um caminho
+            ExibirSaida(dgvLab, colunaAtual, linhaAtual);
+
+            for (; ; )
             {
-                linhaAtual = possiveisCaminhos.Topo.Linha;
-                colunaAtual = possiveisCaminhos.Topo.Coluna;
-                pilhaLista.PassarDados(possiveisCaminhos);
-                 for(; ; )
+                bool encontrou = false;
+                var posicaoEncontrada = VerificarLados(ref encontrou);
+                if (encontrou)
                 {
-                    andou = Mover(0, 1, ref achou); // Ir para direita
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista); // ver marcacao fim
-                        BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
+                    aux.Empilhar(new Movimento(linhaAtual, colunaAtual));
 
-                    andou = Mover(0, -1, ref achou); // Ir para esquerda
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista);
-                        pilhaLista = new PilhaLista<Movimento>();
-                        BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
+                    matriz[linhaAtual, colunaAtual] = (char)111;
+                    linhaAtual = posicaoEncontrada.Linha;
+                    colunaAtual = posicaoEncontrada.Coluna;
 
-                    andou = Mover(-1, 0, ref achou); // Ir para cima
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista);
-                        pilhaLista = new PilhaLista<Movimento>();
-                        BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
+                    ExibirSaida(dgvLab, colunaAtual, linhaAtual);
 
-                    andou = Mover(1, 0, ref achou); // Ir para baixo
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista);
-                        pilhaLista = new PilhaLista<Movimento>();
-                        BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
+                    if (matriz[linhaAtual, colunaAtual] == 83)
+                        return aux;
 
-                    andou = Mover(-1, 1, ref achou); // Ir para diagonal superior direita
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista);
-                        pilhaLista = new PilhaLista<Movimento>();
-                        BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
+                    continue;
+                }
+                else
+                {
+                    Movimento posicaoAnterior = aux.Desimpilhar();
+                    matriz[linhaAtual, colunaAtual] = (char)111;
 
-                    andou = Mover(-1, -1, ref achou); // Ir para diagonal superior esquerda
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista);
-                        pilhaLista = new PilhaLista<Movimento>();
-                        BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
+                    linhaAtual = posicaoAnterior.Linha;
+                    colunaAtual = posicaoAnterior.Coluna;
 
-                    andou = Mover(1, 1, ref achou); // Ir para diagonal inferior direita
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista);
-                        pilhaLista = new PilhaLista<Movimento>();
-                        BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
-
-                    andou = Mover(1, -1, ref achou);  // Ir para diagonal inferior esquerda
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista);
-                        pilhaLista = new PilhaLista<Movimento>();
-                        BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
+                    ExibirSaida(dgvLab, colunaAtual, linhaAtual);
 
                     if (linhaAtual == 1 && colunaAtual == 1)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista);
-                        return pilhaLista;
-                    }
+                       return aux;
                 }
             }
-            else
+
+            Movimento VerificarLados(ref bool encontrado)
             {
-                for(; ; )
-                {
-                    andou = Mover(0, 1, ref achou); // Ir para direita
-                    if (achou == true)
+                for (int linha = -1; linha <= 1; linha++)
+                    for (int coluna = -1; coluna <= 1; coluna++)
                     {
-                        possiveisCaminhos.PassarDados(pilhaLista); // ver marcacao fim
-                        pilhaLista = new PilhaLista<Movimento>();
-                        var aux = BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                        if (aux.EstaVazia() == true)
-                        {
-                            possiveisCaminhos.Empilhar(new Movimento(linhaSolucao, colunaSolucao));
-                            return possiveisCaminhos;
-                        }
-                            
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
+                        if (linha == 0 && coluna == 0)
+                            continue;
+
+                        encontrado = isFree(linha, coluna);
+                        if (encontrado)
+                            return new Movimento(linhaAtual + linha, colunaAtual + coluna);
                     }
 
-                    andou = Mover(0, -1, ref achou); // Ir para esquerda
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista); // ver marcacao fim
-                        pilhaLista = new PilhaLista<Movimento>();
-                        var aux = BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                        if (aux.EstaVazia() == true)
-                        {
-                            possiveisCaminhos.Empilhar(new Movimento(linhaSolucao, colunaSolucao));
-                            return possiveisCaminhos;
-                        }
-
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
-
-                    andou = Mover(-1, 0, ref achou); // Ir para cima
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista); // ver marcacao fim
-                        pilhaLista = new PilhaLista<Movimento>();
-                        var aux = BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                        if (aux.EstaVazia() == true)
-                        {
-                            possiveisCaminhos.Empilhar(new Movimento(linhaSolucao, colunaSolucao));
-                            return possiveisCaminhos;
-                        }
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
-
-                    andou = Mover(1, 0, ref achou); // Ir para baixo
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista); // ver marcacao fim
-                        pilhaLista = new PilhaLista<Movimento>();
-                        var aux = BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                        if (aux.EstaVazia() == true)
-                        {
-                            possiveisCaminhos.Empilhar(new Movimento(linhaSolucao, colunaSolucao));
-                            return possiveisCaminhos;
-                        }
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
-
-                    andou = Mover(-1, 1, ref achou); // Ir para diagonal superior direita
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista); // ver marcacao fim
-                        pilhaLista = new PilhaLista<Movimento>();
-                        var aux = BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                        if (aux.EstaVazia() == true)
-                        {
-                            possiveisCaminhos.Empilhar(new Movimento(linhaSolucao, colunaSolucao));
-                            return possiveisCaminhos;
-                        }
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
-
-                    andou = Mover(-1, -1, ref achou); // Ir para diagonal superior esquerda
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista); // ver marcacao fim
-                        pilhaLista = new PilhaLista<Movimento>();
-                        var aux = BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                        if (aux.EstaVazia() == true)
-                        {
-                            possiveisCaminhos.Empilhar(new Movimento(linhaSolucao, colunaSolucao));
-                            return possiveisCaminhos;
-                        }
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
-
-                    andou = Mover(1, 1, ref achou); // Ir para diagonal inferior direita
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista); // ver marcacao fim
-                        pilhaLista = new PilhaLista<Movimento>();
-                        var aux = BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                        if (aux.EstaVazia() == true)
-                        {
-                            possiveisCaminhos.Empilhar(new Movimento(linhaSolucao, colunaSolucao));
-                            return possiveisCaminhos;
-                        }
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
-
-                    andou = Mover(1, -1, ref achou);  // Ir para diagonal inferior esquerda
-                    if (achou == true)
-                    {
-                        possiveisCaminhos.PassarDados(pilhaLista); // ver marcacao fim
-                        pilhaLista = new PilhaLista<Movimento>();
-                        var aux = BuscarCaminho(dgvLab, ref possiveisCaminhos);
-                        if (aux.EstaVazia() == true)
-                        {
-                            possiveisCaminhos.Empilhar(new Movimento(linhaSolucao, colunaSolucao));
-                            return possiveisCaminhos;
-                        }
-                    }
-                    if (andou == false)
-                    {
-                        if (cont == 8)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            var mov = pilhaLista.Desimpilhar();
-                            linhaAtual = mov.Linha;
-                            colunaAtual = mov.Coluna;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                            cont = 0;
-                        }
-                        else
-                            cont++;
-                    }
-
-                    if (linhaAtual == 1 && colunaAtual == 1)
-                    {
-                        break;
-                    }
-                }
-
-                return possiveisCaminhos;
+                return null;
             }
 
-            bool Mover(int somaLinha, int somaColuna, ref bool encontrado)
+            bool isFree(int somaLinha, int somaColuna)
+            {
+                if ((int)matriz[linhaAtual + somaLinha, colunaAtual + somaColuna] != 35)
+                    if ((int)matriz[linhaAtual + somaLinha, colunaAtual + somaColuna] != 111)
+                        return true;
+
+                return false;
+            }
+
+            /*bool Mover(int somaLinha, int somaColuna, ref bool encontrado)
             {
                 bool foi = false;
 
@@ -487,13 +130,9 @@ namespace apLabirinto
                             pilhaLista.Empilhar(new Movimento(linhaAtual, colunaAtual));
                             linhaAtual += somaLinha;
                             colunaAtual += somaColuna;
-                            linhaSolucao = linhaAtual;
-                            colunaSolucao = colunaAtual;
                             ExibirSaida(dgvLab, colunaAtual, linhaAtual);
                             encontrado = true;
                             foi = true;
-                            pilhaLista.Empilhar(new Movimento(linhaAtual, colunaAtual));
-
                         }
                         else
                         {
@@ -509,9 +148,9 @@ namespace apLabirinto
                 }
 
                 return foi;
-            }
+            }*/
 
-            void ExibirPasso (DataGridView dgv, int coluna, int linha)
+            void ExibirPasso(DataGridView dgv, int coluna, int linha)
             {
                 dgv[coluna, linha].Value = "o";
                 dgv.CurrentCell = dgv[coluna, linha];
@@ -519,12 +158,13 @@ namespace apLabirinto
                 Thread.Sleep(1000);
             }
 
-            void ExibirSaida (DataGridView dgv, int coluna, int linha)
+            void ExibirSaida(DataGridView dgv, int coluna, int linha)
             {
                 dgv.CurrentCell = dgv[coluna, linha];
                 dgv.Refresh();
             }
         }
+
 
         public void ExibirLabirinto (DataGridView dgv)
         {
@@ -544,7 +184,6 @@ namespace apLabirinto
             dgv.CurrentCell = dgv[1, 1];
             dgv.Refresh();
         }
-
         public void ExibirCaminho (DataGridView dgvCaminhos, PilhaLista<Movimento> pilhaLista)
         {
             dgvCaminhos.RowCount = linhas;
