@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,7 +13,9 @@ namespace apLabirinto
 {
     public partial class Form1 : Form
     {
-        LabirintoBacktracking lab;
+        private LabirintoBacktracking lab;
+        private PilhaLista<PilhaLista<Movimento>> caminhos;
+        private LabirintoBacktracking labClone;
         public Form1()
         {
             InitializeComponent();
@@ -23,6 +26,7 @@ namespace apLabirinto
             if (dlgAbrir.ShowDialog() == DialogResult.OK)
             {
                 lab = new LabirintoBacktracking(dlgAbrir.FileName);
+                labClone = (LabirintoBacktracking)lab.Clone();
 
                 lab.ExibirLabirinto(dgvLabirinto);
             }
@@ -32,41 +36,82 @@ namespace apLabirinto
         {
             if (lab == null)
                 MessageBox.Show("Escolha um arquivo!");
-
-            PilhaLista<Movimento> caminhos = new PilhaLista<Movimento>();
-            caminhos = lab.BuscarCaminho(dgvLabirinto, ref caminhos);
-            dgvCaminhos.Rows.Clear();
-
-            /*if (caminhos.EstaVazia() == false)
+            else
             {
-                Movimento mov = caminhos.Topo;
-                NoLista<Movimento> aux = caminhos.Inicio;
-                int solucoes = 0;
+                caminhos = new PilhaLista<PilhaLista<Movimento>>();
+                PilhaLista<Movimento> aux = new PilhaLista<Movimento>();
+                caminhos = lab.BuscarCaminho(dgvLabirinto, ref caminhos, aux);
+                dgvCaminhos.Rows.Clear();
 
-                while (aux != null)
-                {
-                    if (aux.Info.Linha == mov.Linha && aux.Info.Coluna == mov.Coluna)
-                        solucoes++;
-                    else
-                    {
-                        aux = aux.Prox;
-                    }
+                if (caminhos.GetQtd() > 0)
+                    MessageBox.Show("Saída encontrada! |" + " Nº de soluções: " + caminhos.GetQtd());
+                else
+                    MessageBox.Show("Sem solução!");
 
-                    if (aux.Prox.Info.Linha.Equals(aux.Info.Linha) && aux.Prox.Info.Coluna.Equals(aux.Info.Coluna))
-                    {
-                        solucoes++;
-                        break;
-                    }
-                }
-
-                MessageBox.Show("Saída encontrada (" + mov + "), possibilidades: " + solucoes + "!");
+                if (caminhos.GetQtd() > 0)
+                    ExibirCaminhos();
             }
-            else
-                MessageBox.Show("Labirinto sem Saída");*/
-            if (caminhos.GetQtd() > 0)
-                MessageBox.Show("Encontrou");
-            else
-                MessageBox.Show("Sem solução");
+        }
+
+        private void PrepararCaminhos ()
+        {
+            for (int lin = 0; lin < caminhos.GetQtd(); lin++)
+            {
+                dgvCaminhos.Rows[lin].HeaderCell.Value = $"{lin + 1}ª solução";
+            }
+        }
+
+        private void ExibirCaminhos ()
+        {
+            dgvCaminhos.RowCount = caminhos.GetQtd();
+            dgvCaminhos.ColumnCount = 1;
+            NoLista<PilhaLista<Movimento>> umCaminho = caminhos.Inicio;
+            int i = 0;
+            while (umCaminho != null)
+            {
+                dgvCaminhos[0, i].Value = umCaminho.Info.ToString();
+                umCaminho = umCaminho.Prox;
+                i++;
+            }
+            PrepararCaminhos();
+        }
+
+        private PilhaLista<Movimento> ObterUmCaminho (int indiceCaminho)
+        {
+            //int indice = int.Parse(indiceCaminho.Substring(0, 1));
+            NoLista<PilhaLista<Movimento>> aux = caminhos.Inicio;
+            labClone.ExibirLabirinto(dgvLabirinto);
+            for (int i = 0; i < caminhos.GetQtd(); i++)
+            {
+                if (i == indiceCaminho)
+                    return aux.Info;
+                else
+                    aux = aux.Prox;
+            }
+
+            return null;
+        }
+
+        private void ExibirUmCaminho (PilhaLista<Movimento> umCaminho)
+        {
+            NoLista<Movimento> aux = umCaminho.Inicio;
+            while (aux != null)
+            {
+                if (aux.Prox != null && !aux.Equals(umCaminho.Inicio))
+                    dgvLabirinto[aux.Info.Coluna, aux.Info.Linha].Value = 'o';
+                
+                dgvLabirinto.CurrentCell = dgvLabirinto[aux.Info.Coluna, aux.Info.Linha];
+                dgvLabirinto.Refresh();
+                Thread.Sleep(800);
+                aux = aux.Prox;
+            }
+        }
+
+        private void dgvCaminhos_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            labClone.ExibirLabirinto(dgvLabirinto);
+            var umCaminho = ObterUmCaminho(dgvCaminhos.SelectedCells[0].RowIndex);
+            ExibirUmCaminho(umCaminho);
         }
     }
 }

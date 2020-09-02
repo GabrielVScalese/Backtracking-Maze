@@ -10,12 +10,13 @@ namespace apLabirinto
     {
         private int linha;
         private int coluna;
+        private int direcao;
 
-
-        public Movimento(int linha, int coluna)
+        public Movimento(int linha, int coluna, int direcao)
         {
             Linha = linha;
             Coluna = coluna;
+            Direcao = direcao;
         }
 
         public int Linha
@@ -42,14 +43,27 @@ namespace apLabirinto
             }
         }
 
+        public int Direcao
+        {
+            get => direcao;
+            set
+            {
+                if (direcao < 0)
+                    throw new Exception("Direcao invalida");
+
+                direcao = value;
+            }
+        }
+
         public int CompareTo (Movimento obj)
         {
             return 0;
         }
 
+        
         public override string ToString()
         {
-            return "L: " + linha + " C: " + coluna;
+            return "L: " + linha + " | C: " + coluna;
         }
     }
 }

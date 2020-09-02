@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace apLabirinto
 {
-    public class NoLista<Dado> where Dado : IComparable<Dado>
+    public class NoLista<Dado>
     {
         private Dado dado;
         private NoLista<Dado> prox;
@@ -36,6 +36,11 @@ namespace apLabirinto
             {
                 prox = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return dado.ToString();
         }
     }
 }

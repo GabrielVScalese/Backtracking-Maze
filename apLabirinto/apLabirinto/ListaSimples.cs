@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace apLabirinto
 {
-    public class ListaSimples<Dado> where Dado : IComparable<Dado>
+    public class ListaSimples<Dado>
     {
         private NoLista<Dado> primeiro, ultimo;
         private int qtd = 0;

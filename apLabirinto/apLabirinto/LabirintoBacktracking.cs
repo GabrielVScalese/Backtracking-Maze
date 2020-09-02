@@ -27,14 +27,14 @@ namespace apLabirinto
                 throw new Exception("Arquivo invalido");
 
             this.nomeArquivo = nomeArquivo;
-            setMatriz();
+            setMatriz(nomeArquivo);
         }
 
-        private void setMatriz()
+        private void setMatriz(string nomeArquivo)
         {
             var arquivo = new StreamReader(nomeArquivo);
-            colunas = int.Parse(arquivo.ReadLine());
-            linhas = int.Parse(arquivo.ReadLine());
+            Colunas = int.Parse(arquivo.ReadLine());
+            Linhas = int.Parse(arquivo.ReadLine());
             matriz = new char[linhas, colunas];
 
             while (!arquivo.EndOfStream)
@@ -48,63 +48,123 @@ namespace apLabirinto
             }
         }
 
-        public PilhaLista<Movimento> BuscarCaminho(DataGridView dgvLab, ref PilhaLista<Movimento> possiveisCaminhos)
+        public int Linhas
+        {
+            get => linhas;
+            set
+            {
+                if (value == null)
+                    throw new Exception("Valor inválido");
+
+                linhas = value;
+            }
+        }
+
+        public int Colunas
+        {
+            get => colunas;
+            set
+            {
+                if (value == null)
+                    throw new Exception("Valor invalido");
+
+                colunas = value;
+            }
+        }
+
+        public string NomeArquivo
+        {
+            get => nomeArquivo;
+            set
+            {
+                if (value == null || value.Equals(""))
+                    throw new Exception("Nome do arquivo inválido");
+
+                nomeArquivo = value;
+            }
+        }
+
+        public PilhaLista<PilhaLista<Movimento>> BuscarCaminho(DataGridView dgvLab, ref PilhaLista<PilhaLista<Movimento>> caminhos, PilhaLista<Movimento> umCaminho)
         {
             int linhaAtual, colunaAtual;
             linhaAtual = colunaAtual = 1;
+            int direcao = 0;
+
 
             PilhaLista<Movimento> aux = new PilhaLista<Movimento>();
 
-            ExibirSaida(dgvLab, colunaAtual, linhaAtual);
+            //ExibirPasso(dgvLab, colunaAtual, linhaAtual, "I");
+
+            if (caminhos.GetQtd() > 0)
+            {
+                aux = (PilhaLista<Movimento>)umCaminho.Clone();
+                aux.Desimpilhar();
+                linhaAtual = aux.Topo.Linha;
+                colunaAtual = aux.Topo.Coluna;
+                direcao = aux.Topo.Direcao + 1;
+                aux.Desimpilhar();
+            }
 
             for (; ; )
             {
                 bool encontrou = false;
-                var posicaoEncontrada = VerificarLados(ref encontrou);
+                var posicaoEncontrada = VerificarLados(ref encontrou, direcao);
                 if (encontrou)
                 {
-                    aux.Empilhar(new Movimento(linhaAtual, colunaAtual));
+                    aux.Empilhar(new Movimento(linhaAtual, colunaAtual, posicaoEncontrada.Direcao));
 
                     matriz[linhaAtual, colunaAtual] = (char)111;
                     linhaAtual = posicaoEncontrada.Linha;
                     colunaAtual = posicaoEncontrada.Coluna;
-
-                    ExibirSaida(dgvLab, colunaAtual, linhaAtual);
+                    direcao = 0;
 
                     if (matriz[linhaAtual, colunaAtual] == 83)
-                        return aux;
+                    {
+                        //ExibirPasso(dgvLab, colunaAtual, linhaAtual, "S");
+                        aux.Empilhar(new Movimento(linhaAtual, colunaAtual, posicaoEncontrada.Direcao));
+                        PilhaLista<Movimento> caminhoEncontrado = (PilhaLista<Movimento>)aux.Clone();
+                        caminhos.Empilhar(caminhoEncontrado);
+                        BuscarCaminho(dgvLab, ref caminhos, caminhoEncontrado);
+                        return caminhos;
+                    }
 
-                    continue;
+                    //ExibirPasso(dgvLab, colunaAtual, linhaAtual, "o");
+                    //return aux;
+                    //continue;
                 }
                 else
                 {
-                    Movimento posicaoAnterior = aux.Desimpilhar();
-                    matriz[linhaAtual, colunaAtual] = (char)111;
+                    if (linhaAtual == 1 && colunaAtual == 1)
+                    {
+                        if (VerificarLados(ref encontrou, direcao) == null)
+                            return caminhos;
+                    }
 
+                    Movimento posicaoAnterior = aux.Desimpilhar();
+                    matriz[linhaAtual, colunaAtual] = (char)32; // Espaço
+
+                    direcao = posicaoAnterior.Direcao + 1;
                     linhaAtual = posicaoAnterior.Linha;
                     colunaAtual = posicaoAnterior.Coluna;
 
-                    ExibirSaida(dgvLab, colunaAtual, linhaAtual);
-
-                    if (linhaAtual == 1 && colunaAtual == 1)
-                       return aux;
+                    //ExibirPasso(dgvLab, colunaAtual, linhaAtual, " ");
                 }
             }
 
-            Movimento VerificarLados(ref bool encontrado)
+            Movimento VerificarLados(ref bool encontrado, int indice) // Circular
             {
-                for (int linha = -1; linha <= 1; linha++)
-                    for (int coluna = -1; coluna <= 1; coluna++)
-                    {
-                        if (linha == 0 && coluna == 0)
-                            continue;
+                Movimento ret = null;
+                int[] linha = new int[] {-1, -1, 0, 1, 1, 1, 0, -1};
+                int[] coluna = new int[] { 0, 1, 1, 1, 0, -1,-1,-1};
+                for (; indice < 8; indice++)
+                     if (isFree(linha[indice], coluna[indice]))
+                     {
+                        encontrado = true;
+                        ret = new Movimento(linhaAtual + linha[indice], colunaAtual + coluna[indice], indice);
+                        break;
+                     }
 
-                        encontrado = isFree(linha, coluna);
-                        if (encontrado)
-                            return new Movimento(linhaAtual + linha, colunaAtual + coluna);
-                    }
-
-                return null;
+                return ret;
             }
 
             bool isFree(int somaLinha, int somaColuna)
@@ -116,46 +176,12 @@ namespace apLabirinto
                 return false;
             }
 
-            /*bool Mover(int somaLinha, int somaColuna, ref bool encontrado)
+            void ExibirPasso(DataGridView dgv, int coluna, int linha, string caracter)
             {
-                bool foi = false;
-
-                if ((int)matriz[linhaAtual + somaLinha, colunaAtual + somaColuna] != 35)
-                {
-                    if ((int)matriz[linhaAtual + somaLinha, colunaAtual + somaColuna] != 111)
-                    {
-                        if (matriz[linhaAtual + somaLinha, colunaAtual + somaColuna] == 83)
-                        {
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            pilhaLista.Empilhar(new Movimento(linhaAtual, colunaAtual));
-                            linhaAtual += somaLinha;
-                            colunaAtual += somaColuna;
-                            ExibirSaida(dgvLab, colunaAtual, linhaAtual);
-                            encontrado = true;
-                            foi = true;
-                        }
-                        else
-                        {
-                            pilhaLista.Empilhar(new Movimento(linhaAtual, colunaAtual));
-                            matriz[linhaAtual, colunaAtual] = 'o';
-                            linhaAtual += somaLinha;
-                            colunaAtual += somaColuna;
-                            foi = true;
-                            cont = 0;
-                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
-                        }
-                    }
-                }
-
-                return foi;
-            }*/
-
-            void ExibirPasso(DataGridView dgv, int coluna, int linha)
-            {
-                dgv[coluna, linha].Value = "o";
+                dgv[coluna, linha].Value = caracter;
                 dgv.CurrentCell = dgv[coluna, linha];
                 dgv.Refresh();
-                Thread.Sleep(1000);
+                Thread.Sleep(1);
             }
 
             void ExibirSaida(DataGridView dgv, int coluna, int linha)
@@ -202,6 +228,30 @@ namespace apLabirinto
                 dgvCaminhos.Refresh();
                 aux = aux.Prox;
             }
+        }
+
+        public Object Clone()
+        {
+            LabirintoBacktracking ret = null;
+            try
+            {
+                ret = new LabirintoBacktracking(this);
+            }
+            catch (Exception e)
+            { }
+
+            return ret;
+        }
+
+        public LabirintoBacktracking (LabirintoBacktracking modelo)
+        {
+            if (modelo == null)
+                throw new Exception("Modelo ausente");
+
+            Linhas = modelo.Linhas;
+            Colunas = modelo.Colunas;
+            NomeArquivo = modelo.NomeArquivo;
+            setMatriz(NomeArquivo);
         }
     }
 }
