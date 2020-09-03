@@ -141,7 +141,8 @@ namespace apLabirinto
                     }
 
                     Movimento posicaoAnterior = aux.Desimpilhar();
-                    matriz[linhaAtual, colunaAtual] = (char)32; // Espaço
+                    if (caminhos.GetQtd() > 0)
+                         matriz[linhaAtual, colunaAtual] = (char)32; // Espaço
 
                     direcao = posicaoAnterior.Direcao + 1;
                     linhaAtual = posicaoAnterior.Linha;
@@ -181,7 +182,8 @@ namespace apLabirinto
                 dgv[coluna, linha].Value = caracter;
                 dgv.CurrentCell = dgv[coluna, linha];
                 dgv.Refresh();
-                Thread.Sleep(1);
+                if (matriz.Length < 10)
+                    Thread.Sleep(200);
             }
 
             void ExibirSaida(DataGridView dgv, int coluna, int linha)

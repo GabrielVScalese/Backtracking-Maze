@@ -38,13 +38,20 @@ namespace apLabirinto
                 MessageBox.Show("Escolha um arquivo!");
             else
             {
+                dgvLabirinto.Rows.Clear();
+                dgvLabirinto.Columns.Clear();
+                labClone.ExibirLabirinto(dgvLabirinto);
+                Thread.Sleep(500);
                 caminhos = new PilhaLista<PilhaLista<Movimento>>();
                 PilhaLista<Movimento> aux = new PilhaLista<Movimento>();
                 caminhos = lab.BuscarCaminho(dgvLabirinto, ref caminhos, aux);
                 dgvCaminhos.Rows.Clear();
 
                 if (caminhos.GetQtd() > 0)
+                {
                     MessageBox.Show("Saída encontrada! |" + " Nº de soluções: " + caminhos.GetQtd());
+                    lbCaminhos.Text = "Caminhos encontrados: " + caminhos.GetQtd();
+                }
                 else
                     MessageBox.Show("Sem solução!");
 
@@ -57,7 +64,7 @@ namespace apLabirinto
         {
             for (int lin = 0; lin < caminhos.GetQtd(); lin++)
             {
-                dgvCaminhos.Rows[lin].HeaderCell.Value = $"{lin + 1}ª solução";
+                dgvCaminhos.Rows[lin].HeaderCell.Value = $"{lin + 1}ª caminho";
             }
         }
 

@@ -90,7 +90,7 @@ namespace apLabirinto
 
         public override string ToString()
         {
-            string ret = " {";
+            string ret = "{ ";
             NoLista<Dado> aux = Inicio;
             while (aux != null)
             {

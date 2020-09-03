@@ -32,8 +32,10 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lbCaminhos = new System.Windows.Forms.Label();
             this.dgvLabirinto = new System.Windows.Forms.DataGridView();
             this.dgvCaminhos = new System.Windows.Forms.DataGridView();
             this.btnArquivo = new System.Windows.Forms.Button();
@@ -47,20 +49,22 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(25, 54);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(47, 13);
+            this.label1.Size = new System.Drawing.Size(64, 18);
             this.label1.TabIndex = 0;
             this.label1.Text = "Labirinto";
             // 
-            // label2
+            // lbCaminhos
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(493, 54);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(115, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Caminhos encontrados";
+            this.lbCaminhos.AutoSize = true;
+            this.lbCaminhos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbCaminhos.Location = new System.Drawing.Point(493, 54);
+            this.lbCaminhos.Name = "lbCaminhos";
+            this.lbCaminhos.Size = new System.Drawing.Size(163, 18);
+            this.lbCaminhos.TabIndex = 1;
+            this.lbCaminhos.Text = "Caminhos encontrados";
             // 
             // dgvLabirinto
             // 
@@ -109,7 +113,17 @@
             this.clnSolucao});
             this.dgvCaminhos.Location = new System.Drawing.Point(496, 87);
             this.dgvCaminhos.Name = "dgvCaminhos";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvCaminhos.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvCaminhos.RowHeadersWidth = 100;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            this.dgvCaminhos.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvCaminhos.Size = new System.Drawing.Size(473, 298);
             this.dgvCaminhos.TabIndex = 3;
             this.dgvCaminhos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCaminhos_CellClick);
@@ -136,9 +150,9 @@
             // 
             // clnSolucao
             // 
-            this.clnSolucao.HeaderText = "Solução";
+            this.clnSolucao.HeaderText = "Caminho";
             this.clnSolucao.Name = "clnSolucao";
-            this.clnSolucao.Width = 390;
+            this.clnSolucao.Width = 370;
             // 
             // Form1
             // 
@@ -149,7 +163,7 @@
             this.Controls.Add(this.btnArquivo);
             this.Controls.Add(this.dgvCaminhos);
             this.Controls.Add(this.dgvLabirinto);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lbCaminhos);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Caminhos em Labirinto";
@@ -163,7 +177,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lbCaminhos;
         private System.Windows.Forms.DataGridView dgvLabirinto;
         private System.Windows.Forms.DataGridView dgvCaminhos;
         private System.Windows.Forms.Button btnArquivo;
