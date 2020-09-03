@@ -28,6 +28,8 @@ namespace apLabirinto
                 lab = new LabirintoBacktracking(dlgAbrir.FileName);
                 labClone = (LabirintoBacktracking)lab.Clone();
 
+                dgvLabirinto.Rows.Clear();
+                dgvLabirinto.Columns.Clear();
                 lab.ExibirLabirinto(dgvLabirinto);
             }
         }
@@ -103,10 +105,8 @@ namespace apLabirinto
         {
             NoLista<Movimento> aux = umCaminho.Inicio;
             while (aux != null)
-            {
-                if (aux.Prox != null && !aux.Equals(umCaminho.Inicio))
-                    dgvLabirinto[aux.Info.Coluna, aux.Info.Linha].Value = 'o';
-                
+            {                
+                dgvLabirinto[aux.Info.Coluna, aux.Info.Linha].Style.BackColor = Color.Green;
                 dgvLabirinto.CurrentCell = dgvLabirinto[aux.Info.Coluna, aux.Info.Linha];
                 dgvLabirinto.Refresh();
                 Thread.Sleep(800);
@@ -116,6 +116,8 @@ namespace apLabirinto
 
         private void dgvCaminhos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            dgvLabirinto.Rows.Clear();
+            dgvLabirinto.Columns.Clear();
             labClone.ExibirLabirinto(dgvLabirinto);
             var umCaminho = ObterUmCaminho(dgvCaminhos.SelectedCells[0].RowIndex);
             ExibirUmCaminho(umCaminho);

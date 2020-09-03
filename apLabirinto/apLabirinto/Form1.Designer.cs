@@ -50,7 +50,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(25, 54);
+            this.label1.Location = new System.Drawing.Point(12, 54);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 18);
             this.label1.TabIndex = 0;
@@ -60,7 +60,7 @@
             // 
             this.lbCaminhos.AutoSize = true;
             this.lbCaminhos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbCaminhos.Location = new System.Drawing.Point(493, 54);
+            this.lbCaminhos.Location = new System.Drawing.Point(565, 54);
             this.lbCaminhos.Name = "lbCaminhos";
             this.lbCaminhos.Size = new System.Drawing.Size(163, 18);
             this.lbCaminhos.TabIndex = 1;
@@ -85,7 +85,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvLabirinto.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvLabirinto.Location = new System.Drawing.Point(28, 87);
+            this.dgvLabirinto.Location = new System.Drawing.Point(12, 87);
             this.dgvLabirinto.Name = "dgvLabirinto";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
@@ -95,7 +95,7 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvLabirinto.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvLabirinto.Size = new System.Drawing.Size(445, 298);
+            this.dgvLabirinto.Size = new System.Drawing.Size(536, 390);
             this.dgvLabirinto.TabIndex = 2;
             // 
             // dgvCaminhos
@@ -111,7 +111,7 @@
             this.dgvCaminhos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCaminhos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.clnSolucao});
-            this.dgvCaminhos.Location = new System.Drawing.Point(496, 87);
+            this.dgvCaminhos.Location = new System.Drawing.Point(568, 87);
             this.dgvCaminhos.Name = "dgvCaminhos";
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
@@ -124,13 +124,13 @@
             this.dgvCaminhos.RowHeadersWidth = 100;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
             this.dgvCaminhos.RowsDefaultCellStyle = dataGridViewCellStyle6;
-            this.dgvCaminhos.Size = new System.Drawing.Size(473, 298);
+            this.dgvCaminhos.Size = new System.Drawing.Size(545, 390);
             this.dgvCaminhos.TabIndex = 3;
             this.dgvCaminhos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCaminhos_CellClick);
             // 
             // btnArquivo
             // 
-            this.btnArquivo.Location = new System.Drawing.Point(769, 18);
+            this.btnArquivo.Location = new System.Drawing.Point(913, 16);
             this.btnArquivo.Name = "btnArquivo";
             this.btnArquivo.Size = new System.Drawing.Size(97, 56);
             this.btnArquivo.TabIndex = 4;
@@ -140,7 +140,7 @@
             // 
             // btnEncontrar
             // 
-            this.btnEncontrar.Location = new System.Drawing.Point(872, 18);
+            this.btnEncontrar.Location = new System.Drawing.Point(1016, 16);
             this.btnEncontrar.Name = "btnEncontrar";
             this.btnEncontrar.Size = new System.Drawing.Size(97, 56);
             this.btnEncontrar.TabIndex = 5;
@@ -152,13 +152,13 @@
             // 
             this.clnSolucao.HeaderText = "Caminho";
             this.clnSolucao.Name = "clnSolucao";
-            this.clnSolucao.Width = 370;
+            this.clnSolucao.Width = 442;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(993, 421);
+            this.ClientSize = new System.Drawing.Size(1125, 489);
             this.Controls.Add(this.btnEncontrar);
             this.Controls.Add(this.btnArquivo);
             this.Controls.Add(this.dgvCaminhos);

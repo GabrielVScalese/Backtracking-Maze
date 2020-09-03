@@ -93,7 +93,7 @@ namespace apLabirinto
 
             PilhaLista<Movimento> aux = new PilhaLista<Movimento>();
 
-            //ExibirPasso(dgvLab, colunaAtual, linhaAtual, "I");
+            ExibirPasso(dgvLab, colunaAtual, linhaAtual, "I");
 
             if (caminhos.GetQtd() > 0)
             {
@@ -120,7 +120,7 @@ namespace apLabirinto
 
                     if (matriz[linhaAtual, colunaAtual] == 83)
                     {
-                        //ExibirPasso(dgvLab, colunaAtual, linhaAtual, "S");
+                        ExibirPasso(dgvLab, colunaAtual, linhaAtual, "S");
                         aux.Empilhar(new Movimento(linhaAtual, colunaAtual, posicaoEncontrada.Direcao));
                         PilhaLista<Movimento> caminhoEncontrado = (PilhaLista<Movimento>)aux.Clone();
                         caminhos.Empilhar(caminhoEncontrado);
@@ -128,7 +128,7 @@ namespace apLabirinto
                         return caminhos;
                     }
 
-                    //ExibirPasso(dgvLab, colunaAtual, linhaAtual, "o");
+                    ExibirPasso(dgvLab, colunaAtual, linhaAtual, "o");
                     //return aux;
                     //continue;
                 }
@@ -148,7 +148,7 @@ namespace apLabirinto
                     linhaAtual = posicaoAnterior.Linha;
                     colunaAtual = posicaoAnterior.Coluna;
 
-                    //ExibirPasso(dgvLab, colunaAtual, linhaAtual, " ");
+                    ExibirPasso(dgvLab, colunaAtual, linhaAtual, " ");
                 }
             }
 
@@ -178,12 +178,11 @@ namespace apLabirinto
             }
 
             void ExibirPasso(DataGridView dgv, int coluna, int linha, string caracter)
-            {
-                dgv[coluna, linha].Value = caracter;
+            { 
+                dgv[coluna, linha].Style.BackColor = Color.Green;
                 dgv.CurrentCell = dgv[coluna, linha];
                 dgv.Refresh();
-                if (matriz.Length < 10)
-                    Thread.Sleep(200);
+                Thread.Sleep(500);
             }
 
             void ExibirSaida(DataGridView dgv, int coluna, int linha)
@@ -212,26 +211,7 @@ namespace apLabirinto
             dgv.CurrentCell = dgv[1, 1];
             dgv.Refresh();
         }
-        public void ExibirCaminho (DataGridView dgvCaminhos, PilhaLista<Movimento> pilhaLista)
-        {
-            dgvCaminhos.RowCount = linhas;
-            dgvCaminhos.ColumnCount = colunas;
-
-            for (int lin = 0; lin < linhas; lin++)
-                dgvCaminhos.Rows[lin].HeaderCell.Value = lin.ToString();
-
-            for (int col = 0; col < colunas; col++)
-                dgvCaminhos.Columns[col].HeaderText = col.ToString();
-
-            NoLista<Movimento> aux = pilhaLista.Inicio;
-            while (aux != null)
-            {
-                dgvCaminhos[aux.Info.Coluna, aux.Info.Linha].Value = "o";
-                dgvCaminhos.Refresh();
-                aux = aux.Prox;
-            }
-        }
-
+       
         public Object Clone()
         {
             LabirintoBacktracking ret = null;
