@@ -60,7 +60,33 @@ namespace apLabirinto
             return 0;
         }
 
-        
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            if (this == obj)
+                return true;
+
+            if (!GetType().Equals(obj.GetType()))
+                return false;
+
+            Movimento mov = (Movimento)obj;
+
+            if (Linha != mov.Linha)
+                return false;
+
+            if (Coluna != mov.Coluna)
+                return false;
+
+            if (Direcao != mov.Direcao)
+                return false;
+
+            return true;
+        }
+
+
+
         public override string ToString()
         {
             return "L: " + linha + " | C: " + coluna;

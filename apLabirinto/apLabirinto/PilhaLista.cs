@@ -104,5 +104,35 @@ namespace apLabirinto
 
             return ret + " }";
         }
+
+        public override bool Equals (Object obj)
+        {
+            if (obj == null)
+                return false;
+
+            if (this == obj)
+                return true;
+
+            if (!GetType().Equals(obj.GetType()))
+                return false;
+
+            PilhaLista<Dado> pilha = (PilhaLista<Dado>)obj;
+
+            if (GetQtd() != pilha.GetQtd())
+                return false;
+
+            NoLista<Dado> aux1 = pilha.Inicio;
+            NoLista<Dado> aux2 = Inicio;
+            while (aux1 != null)
+            {
+                if (!aux1.Info.Equals(aux2.Info))
+                    return false;
+
+                aux1 = aux1.Prox;
+                aux2 = aux2.Prox;
+            }
+
+            return true;
+        }
     }
 }

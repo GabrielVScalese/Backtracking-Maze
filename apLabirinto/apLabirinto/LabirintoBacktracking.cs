@@ -93,7 +93,7 @@ namespace apLabirinto
 
             PilhaLista<Movimento> aux = new PilhaLista<Movimento>();
 
-            ExibirPasso(dgvLab, colunaAtual, linhaAtual, "I");
+            //ExibirPasso(dgvLab, colunaAtual, linhaAtual, "I");
 
             if (caminhos.GetQtd() > 0)
             {
@@ -120,15 +120,18 @@ namespace apLabirinto
 
                     if (matriz[linhaAtual, colunaAtual] == 83)
                     {
-                        ExibirPasso(dgvLab, colunaAtual, linhaAtual, "S");
-                        aux.Empilhar(new Movimento(linhaAtual, colunaAtual, posicaoEncontrada.Direcao));
-                        PilhaLista<Movimento> caminhoEncontrado = (PilhaLista<Movimento>)aux.Clone();
-                        caminhos.Empilhar(caminhoEncontrado);
-                        BuscarCaminho(dgvLab, ref caminhos, caminhoEncontrado);
-                        return caminhos;
+                        if (EhCaminhoDiferente(aux, caminhos))
+                        {
+                            //ExibirPasso(dgvLab, colunaAtual, linhaAtual, "S");
+                            aux.Empilhar(new Movimento(linhaAtual, colunaAtual, posicaoEncontrada.Direcao));
+                            PilhaLista<Movimento> caminhoEncontrado = (PilhaLista<Movimento>)aux.Clone();
+                            caminhos.Empilhar(caminhoEncontrado);
+                            BuscarCaminho(dgvLab, ref caminhos, caminhoEncontrado);
+                            return caminhos;
+                        }
                     }
 
-                    ExibirPasso(dgvLab, colunaAtual, linhaAtual, "o");
+                    //ExibirPasso(dgvLab, colunaAtual, linhaAtual, "o");
                     //return aux;
                     //continue;
                 }
@@ -148,7 +151,7 @@ namespace apLabirinto
                     linhaAtual = posicaoAnterior.Linha;
                     colunaAtual = posicaoAnterior.Coluna;
 
-                    ExibirPasso(dgvLab, colunaAtual, linhaAtual, " ");
+                    //ExibirPasso(dgvLab, colunaAtual, linhaAtual, " ");
                 }
             }
 
@@ -176,6 +179,21 @@ namespace apLabirinto
 
                 return false;
             }
+
+            bool EhCaminhoDiferente(PilhaLista<Movimento> solucaoEncontrado, PilhaLista<PilhaLista<Movimento>> solucoes)
+            {
+                NoLista<PilhaLista<Movimento>> aux1 = solucoes.Inicio;
+                while (aux1 != null)
+                {
+                    if (aux1.Equals(solucaoEncontrado))
+                        return false;
+
+                    aux1 = aux1.Prox;
+                }
+
+                return true;
+            }
+
 
             void ExibirPasso(DataGridView dgv, int coluna, int linha, string caracter)
             { 
