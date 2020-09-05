@@ -122,5 +122,7 @@ namespace apLabirinto
             var umCaminho = ObterUmCaminho(dgvCaminhos.SelectedCells[0].RowIndex);
             ExibirUmCaminho(umCaminho);
         }
+
+        
     }
 }
