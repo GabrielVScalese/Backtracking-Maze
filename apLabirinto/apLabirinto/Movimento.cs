@@ -85,8 +85,6 @@ namespace apLabirinto
             return true;
         }
 
-
-
         public override string ToString()
         {
             return "L: " + linha + " | C: " + coluna;

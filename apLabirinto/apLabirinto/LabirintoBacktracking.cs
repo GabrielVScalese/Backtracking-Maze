@@ -19,7 +19,7 @@ namespace apLabirinto
         private char[,] matriz;
         private int linhas;
         private int colunas;
-        string nomeArquivo;
+        private string nomeArquivo;
 
         public LabirintoBacktracking(string nomeArquivo)
         {
@@ -90,10 +90,7 @@ namespace apLabirinto
             linhaAtual = colunaAtual = 1;
             int direcao = 0;
 
-
             PilhaLista<Movimento> aux = new PilhaLista<Movimento>();
-
-            //ExibirPasso(dgvLab, colunaAtual, linhaAtual, "I");
 
             if (caminhos.GetQtd() > 0)
             {
@@ -104,6 +101,9 @@ namespace apLabirinto
                 direcao = aux.Topo.Direcao + 1;
                 aux.Desimpilhar();
             }
+            else
+                ExibirPasso(dgvLab, linhaAtual, colunaAtual);
+            
 
             for (; ; )
             {
@@ -122,7 +122,7 @@ namespace apLabirinto
                     {
                         if (EhCaminhoDiferente(aux, caminhos))
                         {
-                            //ExibirPasso(dgvLab, colunaAtual, linhaAtual, "S");
+                            ExibirPasso(dgvLab, colunaAtual, linhaAtual);
                             aux.Empilhar(new Movimento(linhaAtual, colunaAtual, posicaoEncontrada.Direcao));
                             PilhaLista<Movimento> caminhoEncontrado = (PilhaLista<Movimento>)aux.Clone();
                             caminhos.Empilhar(caminhoEncontrado);
@@ -131,9 +131,7 @@ namespace apLabirinto
                         }
                     }
 
-                    //ExibirPasso(dgvLab, colunaAtual, linhaAtual, "o");
-                    //return aux;
-                    //continue;
+                    ExibirPasso(dgvLab, colunaAtual, linhaAtual);
                 }
                 else
                 {
@@ -145,17 +143,17 @@ namespace apLabirinto
 
                     Movimento posicaoAnterior = aux.Desimpilhar();
                     if (caminhos.GetQtd() > 0)
-                         matriz[linhaAtual, colunaAtual] = (char)32; // Espaço
+                         matriz[linhaAtual, colunaAtual] = (char)32;
 
                     direcao = posicaoAnterior.Direcao + 1;
                     linhaAtual = posicaoAnterior.Linha;
                     colunaAtual = posicaoAnterior.Coluna;
 
-                    //ExibirPasso(dgvLab, colunaAtual, linhaAtual, " ");
+                    ExibirPasso(dgvLab, colunaAtual, linhaAtual);
                 }
             }
 
-            Movimento VerificarLados(ref bool encontrado, int indice) // Circular
+            Movimento VerificarLados(ref bool encontrado, int indice) 
             {
                 Movimento ret = null;
                 int[] linha = new int[] {-1, -1, 0, 1, 1, 1, 0, -1};
@@ -195,18 +193,12 @@ namespace apLabirinto
             }
 
 
-            void ExibirPasso(DataGridView dgv, int coluna, int linha, string caracter)
+            void ExibirPasso(DataGridView dgv, int coluna, int linha)
             { 
                 dgv[coluna, linha].Style.BackColor = Color.Green;
                 dgv.CurrentCell = dgv[coluna, linha];
                 dgv.Refresh();
                 Thread.Sleep(500);
-            }
-
-            void ExibirSaida(DataGridView dgv, int coluna, int linha)
-            {
-                dgv.CurrentCell = dgv[coluna, linha];
-                dgv.Refresh();
             }
         }
 
@@ -216,13 +208,13 @@ namespace apLabirinto
             dgv.RowCount = linhas;
             dgv.ColumnCount = colunas;
 
-            for (int lin = 0; lin < linhas; lin++)                     // Inicializando o DataGridView com os indices
+            for (int lin = 0; lin < linhas; lin++)                   
                  dgv.Rows[lin].HeaderCell.Value = lin.ToString();
             
-            for (int col = 0; col < colunas; col++)                    // Inicializando o DataGridView com os indices
+            for (int col = 0; col < colunas; col++)                    
                 dgv.Columns[col].HeaderText = col.ToString();
             
-            for (int lin = 0; lin < linhas; lin++)                    // Inicializando o DataGridView com os valores da matriz         
+            for (int lin = 0; lin < linhas; lin++)                           
                  for (int col = 0; col < colunas; col++)
                     dgv[col, lin].Value = matriz[lin, col];
 

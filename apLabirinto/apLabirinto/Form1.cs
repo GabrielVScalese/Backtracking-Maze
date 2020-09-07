@@ -40,6 +40,7 @@ namespace apLabirinto
                 MessageBox.Show("Escolha um arquivo!");
             else
             {
+                lbCaminhos.Text = "Caminhos encontrados";
                 dgvLabirinto.Rows.Clear();
                 dgvLabirinto.Columns.Clear();
                 labClone.ExibirLabirinto(dgvLabirinto);
@@ -87,7 +88,6 @@ namespace apLabirinto
 
         private PilhaLista<Movimento> ObterUmCaminho (int indiceCaminho)
         {
-            //int indice = int.Parse(indiceCaminho.Substring(0, 1));
             NoLista<PilhaLista<Movimento>> aux = caminhos.Inicio;
             labClone.ExibirLabirinto(dgvLabirinto);
             for (int i = 0; i < caminhos.GetQtd(); i++)
@@ -122,7 +122,5 @@ namespace apLabirinto
             var umCaminho = ObterUmCaminho(dgvCaminhos.SelectedCells[0].RowIndex);
             ExibirUmCaminho(umCaminho);
         }
-
-        
     }
 }
